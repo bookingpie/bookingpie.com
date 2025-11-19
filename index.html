@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>bookingpie - 專業線上預約排程系統</title>
+    <title>預約系統Pro - 專業線上預約排程系統</title>
+    <!-- Perplexity Design System -->
     <style>
       :root {
         /* Primitive Color Tokens */
@@ -86,7 +87,7 @@
             width: 150px;
             height: 40px;
             background-color: none;
-            border: none #E0E0E0;
+            border: none;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -591,33 +592,98 @@
         }
 
         /* Responsive Design */
+        /* Tablet responsive for features grid - 2x2 layout */
+        @media (min-width: 769px) and (max-width: 1199px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 40px !important;
+                max-width: 900px !important;
+            }
+            
+            .feature-card {
+                padding: 28px !important;
+            }
+        }
+        
+        /* Mobile Navigation Overlay */
+        .mobile-nav-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-nav-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
+            /* Header mobile typography */
+            .logo {
+                font-size: 13px;
+            }
+            
+            .header-container .btn-primary {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+            
+            /* Hero section mobile typography */
             .hero h1 {
-                font-size: 32px;
+                font-size: 20px !important;
             }
 
             .hero p {
-                font-size: 16px;
+                font-size: 14px;
             }
 
             .nav {
                 display: none;
                 flex-direction: column;
-                position: absolute;
-                top: 100%;
+                position: fixed;
+                top: 70px;
                 left: 0;
                 right: 0;
-                background-color: var(--white);
+                background-color: #FFFFFF;
                 padding: var(--spacing-sm);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                z-index: 1000;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: max-height 0.3s ease, opacity 0.3s ease;
             }
 
             .nav.show {
                 display: flex;
+                max-height: 400px;
+                opacity: 1;
+            }
+
+            .nav li {
+                width: 100%;
+            }
+
+            .nav a {
+                display: block;
+                width: 100%;
+                padding: 12px 16px;
+                text-align: left;
+                font-size: 14px;
             }
 
             .mobile-menu-btn {
                 display: block;
+                padding: 8px;
+                min-width: 44px;
+                min-height: 44px;
             }
 
             .time-slots {
@@ -632,16 +698,38 @@
                 flex-direction: column;
             }
 
+            /* Section titles mobile */
             .features h2,
             .booking-container h2,
             .check-booking-container h2 {
-                font-size: 24px;
+                font-size: 20px;
+            }
+            
+            /* Feature cards mobile typography */
+            .feature-title {
+                font-size: 14px !important;
+            }
+            
+            .feature-description {
+                font-size: 13px !important;
+            }
+            
+            .feature-icon {
+                font-size: 36px !important;
             }
             
             /* Mobile responsive for features grid */
             .features-grid {
                 grid-template-columns: 1fr !important;
                 gap: 30px !important;
+            }
+            
+            .feature-card {
+                padding: 30px !important;
+            }
+            
+            .feature-title {
+                font-size: 16px !important;
             }
             
             .header-container > div {
@@ -655,9 +743,90 @@
             }
             
             section#hero a.btn {
+                font-size: 14px !important;
+                padding: 12px 24px !important;
+                min-width: 120px !important;
+            }
+            
+            /* Form mobile typography */
+            .form-label {
+                font-size: 13px;
+            }
+            
+            .form-control {
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+            
+            .btn {
+                font-size: 13px;
+                padding: 10px 20px;
+            }
+            
+            /* Pricing mobile typography */
+            #pricing h2 {
+                font-size: 20px;
+            }
+            
+            .price-card > div:first-child {
                 font-size: 16px !important;
-                padding: 14px 32px !important;
-                min-width: 140px !important;
+            }
+            
+            .price-card > div:nth-child(2) {
+                font-size: 24px !important;
+            }
+            
+            .price-card > div:nth-child(3) {
+                font-size: 13px !important;
+            }
+            
+            .price-card > div:nth-child(4) > div {
+                font-size: 13px !important;
+            }
+            
+            /* Testimonials mobile typography */
+            #testimonials h2 {
+                font-size: 20px;
+            }
+            
+            #testimonials div[style*="font-size:16px"] {
+                font-size: 14px !important;
+            }
+            
+            #testimonials div[style*="font-size:14px"] {
+                font-size: 12px !important;
+            }
+            
+            #testimonials div[style*="font-size:15px"] {
+                font-size: 13px !important;
+            }
+            
+            /* FAQ mobile typography */
+            #faq h2 {
+                font-size: 20px;
+            }
+            
+            .faq-question {
+                font-size: 14px !important;
+                padding: 16px !important;
+            }
+            
+            .faq-answer {
+                font-size: 13px !important;
+            }
+            
+            /* Final CTA mobile typography */
+            section[style*="padding:68px"] h2 {
+                font-size: 22px !important;
+            }
+            
+            section[style*="padding:68px"] div[style*="font-size:18px"] {
+                font-size: 15px !important;
+            }
+            
+            /* Footer mobile typography */
+            .footer .copyright {
+                font-size: 12px !important;
             }
         }
 
@@ -685,31 +854,36 @@
             }
             
             section#hero a.btn {
-                font-size: 15px !important;
-                padding: 12px 24px !important;
-                min-width: 120px !important;
+                font-size: 13px !important;
+                padding: 10px 20px !important;
+                min-width: 110px !important;
+            }
+            
+            section#hero h1 {
+                font-size: 18px !important;
             }
         }
     </style>
 </head>
 <body>
+     <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+
     <!-- Navigation/Header -->
     <header class="header" id="home">
-      <div class="header-container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-      <a href="#home" class="logo">
-  <img src="logo.png" alt="Logo" style="height:36px; width:auto;/>
-
-</a>
-
-        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
-        <div style="display:flex; align-items:center; gap:24px;">
-          <nav>
+  <div class="header-container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+    <a href="#home" class="logo" style="display:inline-block;">
+      <img src="logo.png" alt="logo.png" style="height:36px; width:auto; display:block;">
+    </a>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+    <div style="display:flex; align-items:center; gap:24px;">
+      <nav>
             <ul class="nav" id="nav" style="display:flex; gap:24px; margin:0;">
-              <li><a href="#features">功能</a></li>
-              <li><a href="#pricing">方案</a></li>
-              <li><a href="#testimonials">客戶案例</a></li>
-              <li><a href="#faq">資源</a></li>
-              <li><a href="#cta">聯絡我們</a></li>
+              <li><a href="#features" class="nav-link">功能</a></li>
+              <li><a href="#pricing" class="nav-link">方案</a></li>
+              <li><a href="#testimonials" class="nav-link">客戶案例</a></li>
+              <li><a href="#faq" class="nav-link">資源</a></li>
+              <li><a href="#cta" class="nav-link">聯絡我們</a></li>
             </ul>
           </nav>
           <a href="#cta" class="btn btn-primary" style="white-space:nowrap;">免費試用</a>
@@ -939,6 +1113,31 @@
     </section>
 
     <!-- Footer -->
+
+<!-- ===== Firebase SDK & Config (Add your credentials!) =====
+  1. 建立 Firebase 專案與 Realtime Database
+  2. 把下列 firebaseConfig 替換為你的專案參數
+  3. 請參考文件設定安全規則
+-->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+<script>
+// Initialize Firebase
+// ==== 請填入您專案的 firebaseConfig 參數 ====
+const firebaseConfig = {
+  apiKey: "AIzaSyB1OgFmHQeopYbJUlhm6WPwIl6iCzz_Ys4",
+  authDomain: "bookingpie-16a4b.firebaseapp.com",
+  databaseURL: "https://bookingpie-16a4b-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "bookingpie-16a4b",
+  storageBucket: "bookingpie-16a4b.firebasestorage.app",
+  messagingSenderId: "819903848854",
+  appId: "1:819903848854:web:b29c67058d5d7c3eccfdb7"
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+// ===========================================
+</script>
+
     <footer class="footer" style="background:#F5F5F5; padding:48px 24px;">
       <div class="footer-container" style="max-width:1200px; margin:0 auto; text-align:center;">
         <div class="copyright" style="color:#666666; font-size:15px; margin-bottom:20px;">&copy; 2025 預約系統Pro. All rights reserved.</div>
@@ -1208,6 +1407,21 @@
         function setupEventListeners() {
             // Mobile menu
             document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+            
+            // Close mobile menu when clicking overlay
+            document.getElementById('mobileNavOverlay').addEventListener('click', closeMobileMenu);
+            
+            // Close mobile menu when clicking navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+            
+            // Close mobile menu on ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                }
+            });
 
             // Form submission
             document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
@@ -1235,36 +1449,87 @@
             // Lead Form Submission
             const leadForm = document.getElementById('leadForm');
             if (leadForm) {
-                leadForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Simple validation
-                    const company = document.getElementById('company').value.trim();
-                    const contactName = document.getElementById('contactName').value.trim();
-                    const leadPhone = document.getElementById('leadPhone').value.trim();
-                    const leadEmail = document.getElementById('leadEmail').value.trim();
-                    const industry = document.getElementById('industry').value;
-                    const agree = document.getElementById('agree').checked;
-                    
-                    if (!company || !contactName || !leadPhone || !leadEmail || !industry || !agree) {
-                        showToast('請填寫所有必填欄位並同意条款', 'error');
-                        return;
-                    }
-                    
-                    // Show loading
-                    const submitBtn = document.getElementById('leadSubmitBtn');
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = '提交中...';
-                    
-                    // Simulate submission
-                    setTimeout(() => {
-                        showToast('感謝聯繫！我們會儘快與您聯繫。', 'success');
-                        leadForm.reset();
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = '提交';
-                    }, 1500);
-                });
-            }
+  leadForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Validate fields
+    const company = document.getElementById('company').value.trim();
+    const contactName = document.getElementById('contactName').value.trim();
+    const leadPhone = document.getElementById('leadPhone').value.trim();
+    const leadEmail = document.getElementById('leadEmail').value.trim();
+    const industry = document.getElementById('industry').value;
+    const description = document.getElementById('brief').value.trim();
+    const agree = document.getElementById('agree').checked;
+    let hasError = false;
+    // Validation patterns
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phonePattern = /^\+?[0-9\-\s()]{7,}$/;
+
+    // Clear previous errors
+    function clearFieldError(input) { input.classList.remove('error'); const em = input.parentElement.querySelector('.error-message'); if (em) em.classList.remove('show'); }
+    function setFieldError(input, msg) { input.classList.add('error'); let em = input.parentElement.querySelector('.error-message'); if (!em) return; em.innerText = msg; em.classList.add('show'); hasError = true; }
+    [document.getElementById('company'), document.getElementById('contactName'), document.getElementById('leadPhone'), document.getElementById('leadEmail'), document.getElementById('industry')].forEach(clearFieldError);
+    // Validation per requirements
+    if (!company || company.length < 2) setFieldError(document.getElementById('company'), '請填寫公司名稱（至少2字）');
+    if (!contactName || contactName.length < 2) setFieldError(document.getElementById('contactName'), '請填寫聯絡人姓名（至少2字）');
+    if (!leadPhone || !phonePattern.test(leadPhone)) setFieldError(document.getElementById('leadPhone'), '請填寫有效電話號碼');
+    if (!leadEmail || !emailPattern.test(leadEmail)) setFieldError(document.getElementById('leadEmail'), '請提供正確電子郵件');
+    if (!industry) setFieldError(document.getElementById('industry'), '請選擇行業別');
+    if (!agree) { showToast('請勾選同意被聯繫', 'error'); hasError = true; }
+    if (hasError) return;
+
+    // Show loading state
+    const submitBtn = document.getElementById('leadSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = '提交中...';
+    submitBtn.classList.add('btn-loading');
+    let submitTimer;
+    try {
+      // Structure data for Firebase
+      const formData = {
+        companyName: company,
+        contactPerson: contactName,
+        phone: leadPhone,
+        email: leadEmail,
+        industry,
+        description,
+        timestamp: null,
+        submittedAt: (function() {
+          const now = new Date();
+          return `${now.getFullYear()}-${(now.getMonth()+1).toString().padStart(2,'0')}-${now.getDate().toString().padStart(2,'0')} ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}`;
+        })()
+      };
+
+      // Firebase Integration
+      if (typeof firebase !== 'undefined' && firebase.database) {
+        const submissionRef = firebase.database().ref('/submissions').push();
+        // timestamp: Firebase server timestamp
+        formData.timestamp = firebase.database.ServerValue.TIMESTAMP;
+        await submissionRef.set(formData);
+        showToast('感謝您的提交！我們會儘快與您聯繫。', 'success');
+        leadForm.reset();
+        submitBtn.textContent = '提交成功';
+        // Temporarily disable button for 2 seconds
+        submitTimer = setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = '提交';
+          submitBtn.classList.remove('btn-loading');
+        }, 2000);
+      } else {
+        showToast('網路連線有問題，請檢查您的網際網路。', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '提交';
+        submitBtn.classList.remove('btn-loading');
+      }
+    } catch (err) {
+      showToast('提交失敗，請稍後再試。', 'error');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '提交';
+      submitBtn.classList.remove('btn-loading');
+      console.error('Firebase Submit Error:', err);
+    }
+  });
+}
 
             // Smooth scrolling for navigation links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1274,7 +1539,7 @@
                     if (target) {
                         target.scrollIntoView({ behavior: 'smooth' });
                         // Close mobile menu if open
-                        document.getElementById('nav').classList.remove('show');
+                        closeMobileMenu();
                     }
                 });
             });
@@ -1290,7 +1555,29 @@
 
         // Toggle mobile menu
         function toggleMobileMenu() {
-            document.getElementById('nav').classList.toggle('show');
+            const nav = document.getElementById('nav');
+            const overlay = document.getElementById('mobileNavOverlay');
+            const isOpen = nav.classList.contains('show');
+            
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        }
+
+        // Open mobile menu
+        function openMobileMenu() {
+            document.getElementById('nav').classList.add('show');
+            document.getElementById('mobileNavOverlay').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close mobile menu
+        function closeMobileMenu() {
+            document.getElementById('nav').classList.remove('show');
+            document.getElementById('mobileNavOverlay').classList.remove('show');
+            document.body.style.overflow = '';
         }
 
         // Validate form
@@ -1567,47 +1854,6 @@
                 toast.style.display = 'none';
             }, 4000);
         }
- <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
-  <script>
-    // 您的 Firebase 初始化和表單送出程式碼
-    const firebaseConfig = {
-      apiKey: "AIzaSyB1OgFmHQeopYbJUlhm6WPwIl6iCzz_Ys4",
-      authDomain: "bookingpie-16a4b.firebaseapp.com",
-      databaseURL: "https://bookingpie-16a4b-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "bookingpie-16a4b",
-      storageBucket: "bookingpie-16a4b.firebasestorage.app",
-      messagingSenderId: "819903848854",
-      appId: "1:819903848854:web:b29c67058d5d7c3eccfdb7",
-  measurementId: "G-NB8P1B9CNN"
-};
-
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-
-  // 監聽表單提交
-  document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // 取得欄位資料
-    const formData = {
-      name: document.getElementById('name').value,
-      phone: document.getElementById('phone').value,
-      email: document.getElementById('email').value,
-      timestamp: new Date().toISOString(),
-    };
-
-    // 寫入 Firebase Realtime Database
-    database.ref('bookings').push(formData)
-      .then(() => {
-        alert('預約提交成功，我們會盡快與您聯繫！');
-        document.getElementById('bookingForm').reset();
-      })
-      .catch(error => {
-        alert('提交失敗，請稍後再試。');
-        console.error('Firebase 寫入錯誤：', error);
-      });
-  });
-</script>
+    </script>
 </body>
 </html>
