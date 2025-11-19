@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bookingpie - 專業線上預約排程系統</title>
+    <style>
+      :root {
+        /* Primitive Color Tokens */
+        --color-white: rgba(255, 255, 255, 1);
+        --color-black: rgba(0, 0, 0, 1);
+        --color-cream-50: rgba(252, 252, 249, 1);
+        --color-cream-100: rgba(255, 255, 253, 1);
+        --color-gray-200: #F5F5F5;
+        --color-gray-300: #E0E0E0;
+        --color-gray-400: #999999;
+        --color-slate-500: #42A1FA;
+        --color-slate-900: #333333;
+        --color-primary: #42A1FA;
+        --color-primary-hover: #3390E8;
+        --color-primary-active: #2680D6;
+        --color-bg-1: #F5F5F5;
+        --border-radius: 8px;
+      }
+      html,body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', 'Helvetica Neue', Arial, sans-serif;
+        color: var(--color-slate-900);
+        background: var(--color-white);
+      }
+      /* Custom CSS for sticky sidebar, accent color, and landing style */
+      /* ... will be overridden and enhanced below ... */
+            --primary-color: #42A1FA;
+            --primary-hover: #3390E8;
+            --primary-active: #2680D6;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #999999;
+            --text-dark: #333333;
+            --error: #DC3545;
+            --success: #28A745;
+            --border-radius: 8px;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 24px;
+            --spacing-lg: 32px;
+            --spacing-xl: 48px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #FFFFFF;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            width: 150px;
+            height: 40px;
+            background-color: none;
+            border: none #E0E0E0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #999999;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: var(--spacing-md);
+            list-style: none;
+        }
+
+        .nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .nav a:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #E3F2FD 0%, var(--light-gray) 100%);
+            padding: var(--spacing-xl) var(--spacing-md);
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--dark-gray);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 161, 250, 0.3);
+        }
+
+        .btn-primary:active {
+            background-color: var(--primary-active);
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--text-dark);
+            border: 2px solid var(--medium-gray);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Features Section */
+        .features {
+            padding: var(--spacing-xl) var(--spacing-md);
+            background-color: var(--white);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            text-align: center;
+            border: 2px solid var(--medium-gray);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(66, 161, 250, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-sm);
+            color: var(--primary-color);
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-dark);
+        }
+
+        .feature-description {
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        /* Booking Form Section */
+        .booking-section {
+            padding: var(--spacing-xl) var(--spacing-md);
+            background-color: var(--light-gray);
+        }
+
+        .booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .booking-container h2 {
+            font-size: 32px;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: var(--error);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(66, 161, 250, 0.1);
+        }
+
+        .form-control.error {
+            border-color: var(--error);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 14px;
+            margin-top: var(--spacing-xs);
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Time Slots */
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: var(--spacing-xs);
+        }
+
+        .time-slot {
+            padding: 10px;
+            border: 2px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            background-color: var(--white);
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .time-slot:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(66, 161, 250, 0.05);
+        }
+
+        .time-slot.selected {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .modal-header h3 {
+            font-size: 24px;
+            color: var(--text-dark);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--dark-gray);
+            line-height: 1;
+        }
+
+        .modal-body {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .success-icon {
+            text-align: center;
+            font-size: 64px;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .booking-summary {
+            background-color: var(--light-gray);
+            padding: var(--spacing-sm);
+            border-radius: var(--border-radius);
+            margin-top: var(--spacing-sm);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+
+        .summary-value {
+            color: var(--text-dark);
+        }
+
+        /* Check Booking Section */
+        .check-booking-section {
+            padding: var(--spacing-xl) var(--spacing-md);
+            background-color: var(--white);
+        }
+
+        .check-booking-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .check-booking-container h2 {
+            font-size: 32px;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .search-form {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .search-form .form-control {
+            flex: 1;
+        }
+
+        .bookings-list {
+            display: none;
+        }
+
+        .bookings-list.show {
+            display: block;
+        }
+
+        .booking-card {
+            background-color: var(--white);
+            border: 2px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .booking-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .booking-id {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .booking-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: var(--spacing-lg);
+            color: var(--dark-gray);
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--light-gray);
+            padding: var(--spacing-lg) var(--spacing-md);
+            text-align: center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer h3 {
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-dark);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            list-style: none;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .footer-links a {
+            color: var(--dark-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--dark-gray);
+            font-size: 14px;
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--medium-gray);
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--white);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+        }
+
+        .btn-loading .loading {
+            margin-left: var(--spacing-xs);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--white);
+                padding: var(--spacing-sm);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+            .nav.show {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .time-slots {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .features h2,
+            .booking-container h2,
+            .check-booking-container h2 {
+                font-size: 24px;
+            }
+            
+            /* Mobile responsive for features grid */
+            .features-grid {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+            }
+            
+            .header-container > div {
+                flex-direction: column;
+                gap: 16px !important;
+            }
+            
+            /* Mobile hero adjustments */
+            section#hero > div {
+                height: 500px !important;
+            }
+            
+            section#hero a.btn {
+                font-size: 16px !important;
+                padding: 14px 32px !important;
+                min-width: 140px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: var(--spacing-sm);
+            }
+
+            .hero {
+                padding: var(--spacing-md) var(--spacing-sm);
+            }
+
+            .booking-container {
+                padding: var(--spacing-sm);
+            }
+            
+            .logo {
+                width: 120px !important;
+                height: 36px !important;
+                font-size: 12px !important;
+            }
+            
+            section#hero > div {
+                height: 400px !important;
+            }
+            
+            section#hero a.btn {
+                font-size: 15px !important;
+                padding: 12px 24px !important;
+                min-width: 120px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation/Header -->
+    <header class="header" id="home">
+      <div class="header-container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+      <a href="#home" class="logo">
+  <img src="logo.png" alt="Logo" style="height:36px; width:auto;">
+</a>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+        <div style="display:flex; align-items:center; gap:24px;">
+          <nav>
+            <ul class="nav" id="nav" style="display:flex; gap:24px; margin:0;">
+              <li><a href="#features">功能</a></li>
+              <li><a href="#pricing">方案</a></li>
+              <li><a href="#testimonials">客戶案例</a></li>
+              <li><a href="#faq">資源</a></li>
+              <li><a href="#cta">聯絡我們</a></li>
+            </ul>
+          </nav>
+          <a href="#cta" class="btn btn-primary" style="white-space:nowrap;">免費試用</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section: Full-width Banner with Background Image -->
+    <section class="hero" id="hero" style="padding:0; margin:0;">
+      <div style="position:relative; width:100%; height:600px; background: linear-gradient(135deg, rgba(66,161,250,0.2) 0%, rgba(230,230,230,0.3) 100%), #E0E0E0; display:flex; align-items:center; justify-content:center;">
+        <!-- Overlay Content on Background -->
+        <div style="max-width:900px; padding:0 24px; text-align:center; z-index:10;">
+<!-- Banner Section -->
+<div class="banner-section">
+  <div class="banner-content">
+    <h1 style="color:#42A1FA;">Launching soon!</h1>
+    <p style="color:#42A1FA; font-size: 18px;">「讓我們一起設計出最適合小型業者的預約新模式！」</p>
+<div style="height:32px;"></div>
+
+          <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+             <a href="https://forms.gle/XmjC7QfsQGdHxsYFA" target="_blank" class="btn-outlined"style="background:#42A1FA; color:#FFFFFF; padding:16px 40px; font-size:18px; min-width:160px; text-align:center; border-radius:8px; text-decoration:none; font-weight:600; box-shadow:0 4px 12px rgba(66,161,250,0.3);">申請測試</a>
+            <a href="#cta" class="btn" style="background:transparent; color:#FFFFFF; padding:16px 40px; font-size:18px; min-width:160px; text-align:center; border:2px solid #FFFFFF; border-radius:8px; text-decoration:none; font-weight:600;">預約示範</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <!-- Features Section: 為什麼選擇我們 -->
+    <section class="features" id="features" style="padding:80px 24px; background:#E8F4FD;">
+      <div class="features-container" style="max-width:1200px; margin:0 auto;">
+        <h2 style="text-align:center; font-size:32px; margin-bottom:60px; color:#333333;">為什麼選擇我們</h2>
+        <div class="features-grid" style="display:grid; gap:50px; grid-template-columns:repeat(4, 1fr); max-width:1400px; margin:0 auto;">
+          <div class="feature-card" style="background:#FFFFFF; border-radius:8px; padding:30px; text-align:center; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="feature-icon" style="color:#42A1FA; font-size:45px; margin-bottom:20px; line-height:1;">⌗</div>
+            <div class="feature-title" style="font-size:17px; font-weight:600; margin-bottom:12px; color:#333333;">靈活自訂會議時長和多頻次追蹤預約</div>
+            <div class="feature-description" style="color:#666666; font-size:14px; line-height:1.6;">根據不同服務項目自訂會議時長，支持多次追蹤預約提醒，確保客戶不會遺漏重要約診。</div>
+          </div>
+          <div class="feature-card" style="background:#FFFFFF; border-radius:8px; padding:30px; text-align:center; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="feature-icon" style="color:#42A1FA; font-size:45px; margin-bottom:20px; line-height:1;">◇</div>
+            <div class="feature-title" style="font-size:17px; font-weight:600; margin-bottom:12px; color:#333333;">強化專業形象展示功能</div>
+            <div class="feature-description" style="color:#666666; font-size:14px; line-height:1.6;">打造品牌專屬預約頁面，展示服務介紹、團隊資訊，提升企業形象與專業度。</div>
+          </div>
+          <div class="feature-card" style="background:#FFFFFF; border-radius:8px; padding:30px; text-align:center; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="feature-icon" style="color:#42A1FA; font-size:45px; margin-bottom:20px; line-height:1;">◉</div>
+            <div class="feature-title" style="font-size:17px; font-weight:600; margin-bottom:12px; color:#333333;">一鍵加入線上會議室（Google Meet）整合且免跳轉</div>
+            <div class="feature-description" style="color:#666666; font-size:14px; line-height:1.6;">無縫整合Google Meet，客戶只需點擊即可加入線上會議，無需複雜操作。</div>
+          </div>
+          <div class="feature-card" style="background:#FFFFFF; border-radius:8px; padding:30px; text-align:center; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <div class="feature-icon" style="color:#42A1FA; font-size:45px; margin-bottom:20px; line-height:1;">✓</div>
+            <div class="feature-title" style="font-size:17px; font-weight:600; margin-bottom:12px; color:#333333;">預設模板，降低時間成本</div>
+            <div class="feature-description" style="color:#666666; font-size:14px; line-height:1.6;">提供業界最佳實踐模板，幾分鐘內快速上線，無需開發知識。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Lead Capture Form Section -->
+    <section id="cta" style="background:var(--color-bg-1); padding:64px 24px;">
+      <div class="container" style="max-width:600px; margin:0 auto;">
+        <div style="width:100%; padding:0;">
+          <h2 style="font-size:30px; margin-bottom:24px; color:var(--color-primary); text-align:center;">與我們聯絡</h2>
+          <form id="leadForm" autocomplete="off">
+            <div class="form-group">
+              <label class="form-label" for="company">公司名稱</label>
+              <input type="text" id="company" class="form-control" placeholder="請輸入公司名稱" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contactName">聯絡人</label>
+              <input type="text" id="contactName" class="form-control" placeholder="請輸入聯絡人姓名" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="leadPhone">電話</label>
+              <input type="tel" id="leadPhone" class="form-control" placeholder="請輸入聯絡電話" required>
+              <span class="error-message" id="leadPhoneError"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="leadEmail">電子郵件</label>
+              <input type="email" id="leadEmail" class="form-control" placeholder="請輸入電子郵件" required>
+              <span class="error-message" id="leadEmailError"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="industry">行業別</label>
+              <select id="industry" class="form-control" required>
+                <option value="">請選擇行業</option>
+                <option value="美容美髮">美容美髮</option>
+                <option value="健身房">健身房</option>
+                <option value="診療所">診療所</option>
+                <option value="教育培訓">教育培訓</option>
+                <option value="餐飲服務">餐飲服務</option>
+                <option value="其他">其他</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="brief">需求簡介</label>
+              <textarea id="brief" class="form-control" rows="4" placeholder="請簡要描述您的需求"></textarea>
+            </div>
+            <div class="form-group" style="margin-top:12px;">
+              <label style="display:flex; align-items:center; gap:6px; font-size:14px;">
+                <input type="checkbox" id="agree" required style="width:16px; height:16px;">
+                <span>我同意被聯繫以了解更多信息</span>
+              </label>
+            </div>
+            <button type="submit" id="leadSubmitBtn" class="btn btn-primary" style="margin-top:20px; min-width:140px; width:100%;">提交</button>
+            <div id="leadToast" style="display:none; margin-top:18px;"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Pricing Plans Section -->
+    <section id="pricing" style="background:var(--color-bg-1); padding:64px 0;">
+      <div class="container" style="max-width:1200px; margin:0 auto;">
+        <h2 style="text-align:center; font-size:30px; margin-bottom:36px;">方案與價錢</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:36px; justify-content:center;">
+          <div class="price-card" style="flex:1; min-width:280px; background:var(--color-white); border-radius:12px; box-shadow:0 2px 16px rgba(66,161,250,0.08); border:1px solid #E0E0E0; padding:32px; text-align:center;">
+            <div style="font-size:22px; font-weight:600;">基礎方案</div>
+            <div style="font-size:34px; color:var(--color-primary); font-weight:700; margin:16px 0;">NT$990/月</div>
+            <div style="color:var(--color-gray-400); font-size:16px; margin-bottom:12px;">起始價</div>
+            <div style="margin-bottom:16px; text-align:left;">
+              <div>✓ 最多50個預約/月</div>
+              <div>✓ 1名員工</div>
+              <div>✓ 基本預約提醒</div>
+              <div>✓ 電子郵件支援</div>
+            </div>
+            <a href="#cta" class="btn btn-outline" style="min-width:120px; border:2px solid var(--color-primary); color:var(--color-primary); background:none;">免費試用</a>
+          </div>
+          <div class="price-card" style="flex:1; min-width:280px; background:var(--color-white); border-radius:12px; box-shadow:0 2px 24px rgba(66,161,250,0.14); border:2px solid var(--color-primary); padding:32px; text-align:center; position:relative;">
+            <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%); background:var(--color-primary); color:white; padding:5px 18px; border-radius:14px; font-size:14px; font-weight:550;">推薦方案</div>
+            <div style="font-size:22px; font-weight:600;">專業方案</div>
+            <div style="font-size:34px; color:var(--color-primary); font-weight:700; margin:16px 0;">NT$2,990/月</div>
+            <div style="color:var(--color-gray-400); font-size:16px; margin-bottom:12px;">推薦方案</div>
+            <div style="margin-bottom:16px; text-align:left;">
+              <div>✓ 無限預約</div>
+              <div>✓ 最多5名員工</div>
+              <div>✓ 多渠道整合</div>
+              <div>✓ Google Meet整合</div>
+              <div>✓ 優先客服支援</div>
+            </div>
+            <a href="#cta" class="btn btn-primary" style="min-width:120px;">免費試用</a>
+          </div>
+          <div class="price-card" style="flex:1; min-width:280px; background:var(--color-white); border-radius:12px; box-shadow:0 2px 16px rgba(66,161,250,0.08); border:1px solid #E0E0E0; padding:32px; text-align:center;">
+            <div style="font-size:22px; font-weight:600;">企業方案</div>
+            <div style="font-size:34px; color:var(--color-primary); font-weight:700; margin:16px 0;">聯絡銷售</div>
+            <div style="color:var(--color-gray-400); font-size:16px; margin-bottom:12px;">客製化</div>
+            <div style="margin-bottom:16px; text-align:left;">
+              <div>✓ 完整自訂功能</div>
+              <div>✓ 無限員工</div>
+              <div>✓ API存取</div>
+              <div>✓ 專業客服團隊</div>
+              <div>✓ 月度諮詢</div>
+            </div>
+            <a href="#cta" class="btn btn-outline" style="min-width:120px; border:2px solid var(--color-primary); color:var(--color-primary); background:none;">聯絡銷售</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" style="background:var(--color-white); padding:64px 0;">
+      <div class="container" style="max-width:1200px; margin:0 auto;">
+        <h2 style="text-align:center; font-size:30px; margin-bottom:36px;">客戶好評推薦</h2>
+        <div style="display:flex; flex-wrap:wrap; gap:32px; justify-content:center;">
+          <div style="flex:1; min-width:240px; max-width:400px; background:var(--color-white); border-radius:16px; box-shadow:0 2px 16px rgba(66,161,250,0.11); border:1px solid #E0E0E0; padding:28px;">
+            <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+              <div style="width:42px; height:42px; background:var(--color-bg-1); border-radius:50%; display:flex; align-items:center; justify-content:center;font-size:23px;">👩‍🎤</div>
+              <div>
+                <div style="font-size:16px; font-weight:600;">王美容</div>
+                <div style="color:var(--color-gray-400); font-size:14px;">美容沙龍 / 美容業</div>
+              </div>
+            </div>
+            <div style="font-size:15px; margin-bottom:10px; color:var(--color-slate-900);">"使用預約系統Pro後，客戶預約率提升40%，管理時間減少一半。系統非常直觀，員工只需簡單培訓就能上手。"</div>
+            <div style="display:flex; gap:2px;">
+              <span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span>
+            </div>
+          </div>
+          <div style="flex:1; min-width:240px; max-width:400px; background:var(--color-white); border-radius:16px; box-shadow:0 2px 16px rgba(66,161,250,0.11); border:1px solid #E0E0E0; padding:28px;">
+            <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+              <div style="width:42px; height:42px; background:var(--color-bg-1); border-radius:50%; display:flex; align-items:center; justify-content:center;font-size:23px;">🧑‍💼</div>
+              <div>
+                <div style="font-size:16px; font-weight:600;">李健身</div>
+                <div style="color:var(--color-gray-400); font-size:14px;">健身工作室 / 健身產業</div>
+              </div>
+            </div>
+            <div style="font-size:15px; margin-bottom:10px; color:var(--color-slate-900);">"Zoom整合功能讓我們順利轉向線上課程，客戶體驗極佳。強烈推薦給所有健身教練。"</div>
+            <div style="display:flex; gap:2px;">
+              <span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span>
+            </div>
+          </div>
+          <div style="flex:1; min-width:240px; max-width:400px; background:var(--color-white); border-radius:16px; box-shadow:0 2px 16px rgba(66,161,250,0.11); border:1px solid #E0E0E0; padding:28px;">
+            <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
+              <div style="width:42px; height:42px; background:var(--color-bg-1); border-radius:50%; display:flex; align-items:center; justify-content:center;font-size:23px;">👨‍⚕️</div>
+              <div>
+                <div style="font-size:16px; font-weight:600;">張診所</div>
+                <div style="color:var(--color-gray-400); font-size:14px;">牙科診所 / 醫療服務</div>
+              </div>
+            </div>
+            <div style="font-size:15px; margin-bottom:10px; color:var(--color-slate-900);">"自動提醒功能大幅降低了病患爽約率，患者滿意度明顯提升。很值得投資的系統。"</div>
+            <div style="display:flex; gap:2px;">
+              <span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span><span style="color:var(--color-primary); font-size:18px;">★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" style="background:var(--color-bg-1); padding:64px 0;">
+      <div class="container" style="max-width:900px; margin:0 auto;">
+        <h2 style="font-size:28px; margin-bottom:36px; text-align:center;">常見問題</h2>
+        <div id="faqAccordion"></div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section style="background:var(--color-white); padding:68px 0;">
+      <div class="container" style="max-width:900px; margin:0 auto; text-align:center;">
+        <h2 style="font-size:32px; color:var(--color-primary); margin-bottom:18px;">準備提升您的預約管理效率？</h2>
+        <div style="font-size:18px; color:var(--color-slate-900); margin-bottom:34px;">開始免費試用，無需信用卡</div>
+        <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+          <a href="#cta" class="btn btn-primary" style="min-width:150px;">免費試用</a>
+          <a href="#cta" class="btn btn-outline" style="min-width:150px; border:2px solid var(--color-primary); color:var(--color-primary); background:none;">聯絡銷售團隊</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="background:#F5F5F5; padding:48px 24px;">
+      <div class="footer-container" style="max-width:1200px; margin:0 auto; text-align:center;">
+        <div class="copyright" style="color:#666666; font-size:15px; margin-bottom:20px;">&copy; 2025 預約系統Pro. All rights reserved.</div>
+        <div style="display:flex; justify-content:center; gap:28px; align-items:center;">
+          <a href="https://facebook.com" target="_blank" aria-label="Facebook" style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; background:#1877F2; color:#FFFFFF; border-radius:50%; font-size:20px; text-decoration:none; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <span style="font-weight:bold;">f</span>
+          </a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram" style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; background:#E4405F; color:#FFFFFF; border-radius:50%; font-size:20px; text-decoration:none; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            📷
+          </a>
+          <a href="mailto:contact@bookingpro.com" aria-label="Gmail" style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; background:#EA4335; color:#FFFFFF; border-radius:50%; font-size:20px; text-decoration:none; transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            ✉
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <section class="booking-section" id="booking" style="display:none;">
+        <div class="booking-container">
+            <h2>預約服務</h2>
+            <form id="bookingForm">
+                <!-- Personal Information -->
+                <div class="form-group">
+                    <label class="form-label required" for="name">姓名</label>
+                    <input type="text" id="name" class="form-control" placeholder="請輸入您的姓名" required>
+                    <div class="error-message" id="nameError">請輸入姓名</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required" for="phone">電話</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="請輸入您的電話號碼" required>
+                    <div class="error-message" id="phoneError">請輸入有效的電話號碼</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required" for="email">電子郵件</label>
+                    <input type="email" id="email" class="form-control" placeholder="請輸入您的電子郵件" required>
+                    <div class="error-message" id="emailError">請輸入有效的電子郵件地址</div>
+                </div>
+
+                <!-- Booking Details -->
+                <div class="form-group">
+                    <label class="form-label required" for="date">預約日期</label>
+                    <input type="date" id="date" class="form-control" required>
+                    <div class="error-message" id="dateError">請選擇預約日期</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required">預約時間</label>
+                    <div class="time-slots" id="timeSlots"></div>
+                    <div class="error-message" id="timeError">請選擇預約時間</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required" for="service">服務項目</label>
+                    <select id="service" class="form-control" required>
+                        <option value="">請選擇服務項目</option>
+                        <option value="諮詢服務">諮詢服務 (30分鐘)</option>
+                        <option value="健康檢查">健康檢查 (60分鐘)</option>
+                        <option value="美容護理">美容護理 (90分鐘)</option>
+                        <option value="專業療程">專業療程 (120分鐘)</option>
+                        <option value="其他服務">其他服務 (依需求)</option>
+                    </select>
+                    <div class="error-message" id="serviceError">請選擇服務項目</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required" for="people">人數</label>
+                    <input type="number" id="people" class="form-control" min="1" max="10" value="1" required>
+                    <div class="error-message" id="peopleError">請輸入人數 (1-10)</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="notes">特殊需求/備註</label>
+                    <textarea id="notes" class="form-control" rows="4" placeholder="如有特殊需求或備註事項，請在此說明"></textarea>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="resetBtn">清除</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">確認預約</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Check Booking Section -->
+    <section class="check-booking-section" id="check-booking" style="display:none;">
+        <div class="check-booking-container">
+            <h2>查詢預約</h2>
+            <p style="text-align: center; color: var(--dark-gray); margin-bottom: var(--spacing-md);">請輸入您的電話號碼或電子郵件來查詢預約記錄</p>
+            
+            <div class="search-form">
+                <input type="text" id="searchInput" class="form-control" placeholder="輸入電話號碼或電子郵件">
+                <button type="button" class="btn btn-primary" id="searchBtn">查詢</button>
+            </div>
+
+            <div class="no-results" id="noResults">
+                <p>找不到相關的預約記錄</p>
+            </div>
+
+            <div class="bookings-list" id="bookingsList"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="features" id="about" style="display:none;">
+        <div class="features-container">
+            <h2>關於我們</h2>
+            <p style="text-align: center; color: var(--dark-gray); max-width: 600px; margin: 0 auto;">
+                我們致力於提供最便捷、最專業的線上預約服務。透過我們的平台，您可以輕鬆安排各種服務預約，節省您的寶貴時間。我們的系統安全可靠，保護您的個人資訊，讓您安心使用。
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="check-booking-section" id="contact" style="display:none;">
+        <div class="check-booking-container">
+            <h2>聯絡我們</h2>
+            <div style="text-align: center; color: var(--dark-gray);">
+                <p><strong>客服電話：</strong>0800-123-456</p>
+                <p><strong>電子郵件：</strong>service@booking.com</p>
+                <p><strong>服務時間：</strong>週一至週五 09:00-18:00</p>
+                <p><strong>地址：</strong>台北市信義區信義路五段7號</p>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>預約成功</h3>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-icon">✓</div>
+                <p style="text-align: center; margin-bottom: var(--spacing-md);">您的預約已成功送出！</p>
+                <div class="booking-summary" id="bookingSummary"></div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" id="closeModalBtn">關閉</button>
+                <button class="btn btn-primary" id="newBookingBtn">再次預約</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage
+        let bookings = [];
+        let selectedTime = null;
+
+        // FAQ Data
+        const faqs = [
+            {
+                question: '系統需要多久才能上線？',
+                answer: '使用我們的預設模板，通常只陨5-10分鐘即可完成基本設置，半小時內即可開始接受預約。'
+            },
+            {
+                question: '支援哪些行業使用？',
+                answer: '我們的系統適用於美容、健身、醫療、教育、餐飲等多個行業。每個行業都有專用的預設模板。'
+            },
+            {
+                question: '是否提供免費試用？',
+                answer: '是的！我們提供14天的免費試用期，無需信用卡。您可以完全體驗所有功能。'
+            },
+            {
+                question: '如何整合現有系統？',
+                answer: '我們提供完整的API文檔和整合指南。技術團隊也可以協助您的開發人員進行整合。'
+            },
+            {
+                question: '有技術支援嗎？',
+                answer: '是的，我們提供24小時中文技術支援，透過郵件、電話和線上聊天方式協助您。'
+            },
+            {
+                question: '資料安全如何保障？',
+                answer: '所有資料都採用銀行級加密，每日自動備份。我們通過ISO 27001認證，符合GDPR標準。'
+            }
+        ];
+
+        // Time slots data
+        const timeSlots = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00'];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTimeSlots();
+            setupEventListeners();
+            setMinDate();
+            initializeFAQ();
+        });
+
+        // Initialize FAQ Accordion
+        function initializeFAQ() {
+            const faqContainer = document.getElementById('faqAccordion');
+            faqs.forEach((faq, index) => {
+                const faqItem = document.createElement('div');
+                faqItem.style.cssText = 'background:#FFFFFF; border:1px solid #E0E0E0; border-radius:8px; margin-bottom:12px; overflow:hidden;';
+                faqItem.innerHTML = `
+                    <div class="faq-question" data-index="${index}" style="padding:20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:600; color:#333333; font-size:16px;">
+                        <span>${faq.question}</span>
+                        <span class="faq-icon" style="font-size:20px; color:#42A1FA; transition:transform 0.3s;">+</span>
+                    </div>
+                    <div class="faq-answer" data-index="${index}" style="max-height:0; overflow:hidden; transition:max-height 0.3s ease; padding:0 20px; color:#666666; font-size:15px; line-height:1.6;">
+                        <div style="padding-bottom:20px;">${faq.answer}</div>
+                    </div>
+                `;
+                faqContainer.appendChild(faqItem);
+            });
+
+            // Add click handlers
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', function() {
+                    const index = this.dataset.index;
+                    const answer = document.querySelector(`.faq-answer[data-index="${index}"]`);
+                    const icon = this.querySelector('.faq-icon');
+                    const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+                    
+                    // Close all answers
+                    document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = '0');
+                    document.querySelectorAll('.faq-icon').forEach(i => {
+                        i.textContent = '+';
+                        i.style.transform = 'rotate(0deg)';
+                    });
+                    
+                    // Open clicked answer if it was closed
+                    if (!isOpen) {
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        icon.textContent = '−';
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        }
+
+        // Initialize time slots
+        function initializeTimeSlots() {
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            timeSlots.forEach(time => {
+                const slot = document.createElement('div');
+                slot.className = 'time-slot';
+                slot.textContent = time;
+                slot.dataset.time = time;
+                slot.addEventListener('click', selectTimeSlot);
+                timeSlotsContainer.appendChild(slot);
+            });
+        }
+
+        // Select time slot
+        function selectTimeSlot(e) {
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            e.target.classList.add('selected');
+            selectedTime = e.target.dataset.time;
+            hideError('time');
+        }
+
+        // Set minimum date to today
+        function setMinDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').setAttribute('min', today);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Mobile menu
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+
+            // Form submission
+            document.getElementById('bookingForm').addEventListener('submit', handleFormSubmit);
+
+            // Reset button
+            document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+            // Modal controls
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+            document.getElementById('newBookingBtn').addEventListener('click', function() {
+                closeModal();
+                resetForm();
+                document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Search booking
+            document.getElementById('searchBtn').addEventListener('click', searchBookings);
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchBookings();
+                }
+            });
+
+            // Lead Form Submission
+            const leadForm = document.getElementById('leadForm');
+            if (leadForm) {
+                leadForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Simple validation
+                    const company = document.getElementById('company').value.trim();
+                    const contactName = document.getElementById('contactName').value.trim();
+                    const leadPhone = document.getElementById('leadPhone').value.trim();
+                    const leadEmail = document.getElementById('leadEmail').value.trim();
+                    const industry = document.getElementById('industry').value;
+                    const agree = document.getElementById('agree').checked;
+                    
+                    if (!company || !contactName || !leadPhone || !leadEmail || !industry || !agree) {
+                        showToast('請填寫所有必填欄位並同意条款', 'error');
+                        return;
+                    }
+                    
+                    // Show loading
+                    const submitBtn = document.getElementById('leadSubmitBtn');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '提交中...';
+                    
+                    // Simulate submission
+                    setTimeout(() => {
+                        showToast('感謝聯繫！我們會儘快與您聯繫。', 'success');
+                        leadForm.reset();
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '提交';
+                    }, 1500);
+                });
+            }
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                        // Close mobile menu if open
+                        document.getElementById('nav').classList.remove('show');
+                    }
+                });
+            });
+
+            // Remove error on input
+            const inputs = ['name', 'phone', 'email', 'date', 'service', 'people'];
+            inputs.forEach(id => {
+                document.getElementById(id).addEventListener('input', function() {
+                    hideError(id);
+                });
+            });
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            document.getElementById('nav').classList.toggle('show');
+        }
+
+        // Validate form
+        function validateForm() {
+            let isValid = true;
+
+            // Name validation
+            const name = document.getElementById('name').value.trim();
+            if (!name) {
+                showError('name');
+                isValid = false;
+            }
+
+            // Phone validation
+            const phone = document.getElementById('phone').value.trim();
+            if (!phone || phone.length < 10) {
+                showError('phone');
+                isValid = false;
+            }
+
+            // Email validation
+            const email = document.getElementById('email').value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailPattern.test(email)) {
+                showError('email');
+                isValid = false;
+            }
+
+            // Date validation
+            const date = document.getElementById('date').value;
+            if (!date) {
+                showError('date');
+                isValid = false;
+            }
+
+            // Time validation
+            if (!selectedTime) {
+                showError('time');
+                isValid = false;
+            }
+
+            // Service validation
+            const service = document.getElementById('service').value;
+            if (!service) {
+                showError('service');
+                isValid = false;
+            }
+
+            // People validation
+            const people = document.getElementById('people').value;
+            if (!people || people < 1 || people > 10) {
+                showError('people');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Show error
+        function showError(field) {
+            const input = document.getElementById(field);
+            const error = document.getElementById(field + 'Error');
+            if (input) input.classList.add('error');
+            if (error) error.classList.add('show');
+        }
+
+        // Hide error
+        function hideError(field) {
+            const input = document.getElementById(field);
+            const error = document.getElementById(field + 'Error');
+            if (input) input.classList.remove('error');
+            if (error) error.classList.remove('show');
+        }
+
+        // Handle form submit
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '處理中...<span class="loading"></span>';
+            submitBtn.classList.add('btn-loading');
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Create booking object
+                const booking = {
+                    id: 'BK' + Date.now(),
+                    name: document.getElementById('name').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    date: document.getElementById('date').value,
+                    time: selectedTime,
+                    service: document.getElementById('service').value,
+                    people: document.getElementById('people').value,
+                    notes: document.getElementById('notes').value.trim(),
+                    status: '已確認',
+                    createdAt: new Date().toISOString()
+                };
+
+                // Store booking
+                bookings.push(booking);
+
+                // Show success modal
+                showSuccessModal(booking);
+
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.classList.remove('btn-loading');
+                submitBtn.disabled = false;
+            }, 1500);
+        }
+
+        // Show success modal
+        function showSuccessModal(booking) {
+            const summaryContainer = document.getElementById('bookingSummary');
+            summaryContainer.innerHTML = `
+                <div class="summary-item">
+                    <span class="summary-label">預約編號:</span>
+                    <span class="summary-value">${booking.id}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">姓名:</span>
+                    <span class="summary-value">${booking.name}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">電話:</span>
+                    <span class="summary-value">${booking.phone}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">電子郵件:</span>
+                    <span class="summary-value">${booking.email}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">預約日期:</span>
+                    <span class="summary-value">${booking.date}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">預約時間:</span>
+                    <span class="summary-value">${booking.time}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">服務項目:</span>
+                    <span class="summary-value">${booking.service}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">人數:</span>
+                    <span class="summary-value">${booking.people}人</span>
+                </div>
+                ${booking.notes ? `
+                <div class="summary-item">
+                    <span class="summary-label">備註:</span>
+                    <span class="summary-value">${booking.notes}</span>
+                </div>
+                ` : ''}
+            `;
+
+            document.getElementById('successModal').classList.add('show');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('bookingForm').reset();
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+            });
+            selectedTime = null;
+            document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+        }
+
+        // Search bookings
+        function searchBookings() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            if (!searchTerm) {
+                return;
+            }
+
+            const results = bookings.filter(booking => 
+                booking.phone.toLowerCase().includes(searchTerm) || 
+                booking.email.toLowerCase().includes(searchTerm)
+            );
+
+            displayBookings(results);
+        }
+
+        // Display bookings
+        function displayBookings(results) {
+            const bookingsList = document.getElementById('bookingsList');
+            const noResults = document.getElementById('noResults');
+
+            if (results.length === 0) {
+                bookingsList.classList.remove('show');
+                noResults.classList.add('show');
+                return;
+            }
+
+            noResults.classList.remove('show');
+            bookingsList.innerHTML = results.map(booking => `
+                <div class="booking-card">
+                    <div class="booking-card-header">
+                        <span class="booking-id">${booking.id}</span>
+                        <span class="booking-status">${booking.status}</span>
+                    </div>
+                    <div class="booking-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">姓名:</span>
+                            <span class="summary-value">${booking.name}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">電話:</span>
+                            <span class="summary-value">${booking.phone}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">預約日期:</span>
+                            <span class="summary-value">${booking.date}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">預約時間:</span>
+                            <span class="summary-value">${booking.time}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">服務項目:</span>
+                            <span class="summary-value">${booking.service}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">人數:</span>
+                            <span class="summary-value">${booking.people}人</span>
+                        </div>
+                        ${booking.notes ? `
+                        <div class="summary-item">
+                            <span class="summary-label">備註:</span>
+                            <span class="summary-value">${booking.notes}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            bookingsList.classList.add('show');
+        }
+
+        // Toast notification helper
+        function showToast(message, type) {
+            const toast = document.getElementById('leadToast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            toast.style.padding = '12px 20px';
+            toast.style.borderRadius = '6px';
+            toast.style.fontSize = '14px';
+            toast.style.fontWeight = '500';
+            
+            if (type === 'success') {
+                toast.style.background = '#28A745';
+                toast.style.color = '#FFFFFF';
+            } else {
+                toast.style.background = '#DC3545';
+                toast.style.color = '#FFFFFF';
+            }
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 4000);
+        }
+ <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+  <script>
+    // 您的 Firebase 初始化和表單送出程式碼
+    const firebaseConfig = {
+      apiKey: "AIzaSyB1OgFmHQeopYbJUlhm6WPwIl6iCzz_Ys4",
+      authDomain: "bookingpie-16a4b.firebaseapp.com",
+      databaseURL: "https://bookingpie-16a4b-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "bookingpie-16a4b",
+      storageBucket: "bookingpie-16a4b.firebasestorage.app",
+      messagingSenderId: "819903848854",
+      appId: "1:819903848854:web:b29c67058d5d7c3eccfdb7",
+  measurementId: "G-NB8P1B9CNN"
+};
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  // 監聽表單提交
+  document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // 取得欄位資料
+    const formData = {
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
+      timestamp: new Date().toISOString(),
+    };
+
+    // 寫入 Firebase Realtime Database
+    database.ref('bookings').push(formData)
+      .then(() => {
+        alert('預約提交成功，我們會盡快與您聯繫！');
+        document.getElementById('bookingForm').reset();
+      })
+      .catch(error => {
+        alert('提交失敗，請稍後再試。');
+        console.error('Firebase 寫入錯誤：', error);
+      });
+  });
+</script>
+</body>
+</html>
